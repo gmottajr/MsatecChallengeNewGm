@@ -13,6 +13,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.SetupDbContext(builder.Configuration);
 builder.Services.AddDbInitializer();
 builder.Services.ResolveDependencies();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200") // Allow requests from this origin
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +36,7 @@ builder.Configuration.AddUserSecrets<Program>(true);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("AllowSpecificOrigin");
 app.MapControllers();
 
 // Seed data when the application starts

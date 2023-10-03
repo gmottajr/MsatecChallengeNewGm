@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ClienteForLists } from './Models/cliente';
+import { ClienteService } from './_services/cliente.service';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,12 @@ export class AppComponent implements OnInit{
   title = 'Msatec- Clientes';
    //clienteList: ClienteForLists[] = [];
    clienteList: any;
-  constructor(private http: HttpClient){
+  constructor(private clienteService: ClienteService){
 
   }
 
   ngOnInit(): void {
-    this.http.get('https://localhost:7159/api/cliente').subscribe({
+    this.clienteService.getAll().subscribe({
       next: (response) => this.clienteList = response,
       error: (msgerror) => {
         console.log(msgerror);
@@ -25,5 +26,12 @@ export class AppComponent implements OnInit{
         console.log('Requested has completed!');
       }
     });
+  }
+
+  onSearchValValueChange(searchVal: string)
+  {
+    const updatedValue = searchVal.toLowerCase();
+    console.log('parent got you!!!!!!!!!!!!!!! Updated Input Value:', updatedValue);
+    //this.clienteList.filter(item.nome => item.nome.toLowerCase().includes(updatedValue));
   }
 }

@@ -11,7 +11,7 @@ namespace MsaTec.Application.ViewModels;
 
 public class ClienteViewModel : CrudViewModelBase
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 
     [Required]
     [Display(Name = "Nome")]

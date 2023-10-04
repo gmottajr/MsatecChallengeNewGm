@@ -11,10 +11,10 @@ namespace MsaTec.Application.ViewModels;
 public class TelefoneViewModel : CrudViewModelBase
 {
     
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 
     
-    public Guid ClienteId { get; set; }
+    public Guid? ClienteId { get; set; }
 
     [Required]
     [Display(Name = "Número do Telefone")]

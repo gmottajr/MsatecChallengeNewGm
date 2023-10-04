@@ -39,7 +39,7 @@ public class UpdateClienteCommand : IRequest<ICommandResult>
             var result = new CommandResult();
             try
             {
-                var gotEntity = await _clienteRepository.GetByIdAsync(request.ClienteViewModel.Id);
+                var gotEntity = await _clienteRepository.GetByIdAsync(request.ClienteViewModel.Id.GetValueOrDefault());
                 if (gotEntity == null)
                 {
                     result.MessageError.Add($"Cliente with ID {request.ClienteViewModel.Id} not found.");

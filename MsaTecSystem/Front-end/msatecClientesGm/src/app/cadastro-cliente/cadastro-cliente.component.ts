@@ -12,7 +12,7 @@ export class CadastroClienteComponent implements OnInit {
 
   @Output() cancelcadastro = new EventEmitter();
   model: Cliente = {
-    id: '', 
+    id: '00000000-0000-0000-0000-000000000000', 
     nome: '',
     email: '',
     dataNascimento: null, 
@@ -65,7 +65,7 @@ export class CadastroClienteComponent implements OnInit {
   cancelar()
   {
     this.model = {
-      id: '', 
+      id: '00000000-0000-0000-0000-000000000000', 
       nome: '',
       email: '',
       dataNascimento: null, 
@@ -95,7 +95,7 @@ export class CadastroClienteComponent implements OnInit {
     const descricaoTipo = this.tipoTelefoneOptions[this.selectedTipoTelefone -1].descricao;
     console.log(descricaoTipo);
     
-    this.model.telefones.push({ id: '', 
+    this.model.telefones.push({ id: '00000000-0000-0000-0000-000000000000', 
                                 clienteId: this.model.id, 
                                 numero: this.addingTelefoneVal, 
                                 tipo: this.selectedTipoTelefone,

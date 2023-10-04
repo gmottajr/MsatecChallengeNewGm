@@ -82,6 +82,25 @@ ul.listClientes {
     transition: box-shadow 0.3s ease;
   }
   
+  .listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically */
+    margin-bottom: 10px; /* Adjust the margin as needed */
+}
+
+.cardWrapper {
+    flex: 1;
+    margin-right: 10px; /* Adjust the margin between the card and the button */
+}
+
+.buttonWrapper {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
   /* Responsive styles using media query */
   @media screen and (max-width: 768px) {
     .cardClienteForList {

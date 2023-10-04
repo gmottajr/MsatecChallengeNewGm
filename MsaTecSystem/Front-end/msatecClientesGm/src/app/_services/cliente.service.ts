@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { Cliente, ClienteForLists } from '../Models/cliente';
 
 @Injectable({
@@ -31,8 +31,14 @@ export class ClienteService {
     );
   }
 
-  excluirById(id: string)
-  {
-    const gotUrl = this.baseUrl;
+  excluirById(id: string): Observable<any> {
+    const gotUrl = `${this.baseUrl}cliente/${id}`;
+    console.log(gotUrl);
+    return this.http.delete(gotUrl).pipe(
+      catchError(error => {
+        console.error('Error occurred:', error);
+        return error; 
+      })
+    );
   }
 }

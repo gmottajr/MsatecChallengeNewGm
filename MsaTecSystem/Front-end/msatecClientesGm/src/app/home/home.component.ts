@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClienteForLists } from '../Models/cliente';
 import { ClienteService } from '../_services/cliente.service';
 import { SearchHelperService } from '../_shared_services/search-helper.service';
@@ -8,9 +8,10 @@ import { SearchHelperService } from '../_shared_services/search-helper.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit, OnDestroy{
   clienteList: ClienteForLists[] = [];
   clienteListAux: ClienteForLists[] = [];
+  subscription: any;
   
   constructor(private clienteService: ClienteService, 
     private searchHelperService: SearchHelperService){
@@ -43,6 +44,28 @@ export class HomeComponent implements OnInit{
       this.clienteList = this.clienteListAux;
       const updatedValue = searchVal.toLowerCase();
       this.clienteList = this.clienteList.filter(clt => clt.nome.toLowerCase().includes(updatedValue));
+    }
+
+    deleteCliente(clienteId: string) {
+      console.log('Cliente id -- deleting:', clienteId);
+      this.subscription = this.clienteService.excluirById(clienteId)
+      .subscribe({
+        next: (response) => {
+          console.log('Cliente excluído com sucesso:', response);
+          // Handle success, update UI, etc.
+        },
+        error: (error) => {
+          console.error('Erro ao excluir cliente:', error);
+          // Handle error, show error message, etc.
+        }
+      });
+    }
+
+    ngOnDestroy(): void {
+      // Unsubscribe to avoid memory leaks when the component is destroyed
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
 
 }

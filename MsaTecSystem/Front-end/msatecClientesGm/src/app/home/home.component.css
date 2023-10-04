@@ -1,0 +1,98 @@
+/* CSS for the list with class name listClientes */
+ul.listClientes {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+  
+  ul.listClientes li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  ul.listClientes li:hover {
+    background-color: #e0e0e0;
+  }
+  
+  ul.listClientes li h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+  
+  ul.listClientes li p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* CSS for the card with class name cardClienteForList */
+  .cardWrapper {
+    width: 100%;
+    max-width: 1800px; /* Set your desired maximum width for the card */
+    margin: 0 auto; /* Center the card */
+    position: relative;
+  }
+  
+  .cardClienteForList {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cardWrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%; /* Set the maximum width for the shadow effect */
+    height: 100%;
+    background-color: #fff; /* Match the card background color */
+    z-index: -1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  
+  .cardClienteForList h2 {
+    font-size: 18px;
+    margin: 0 0 10px;
+  }
+  
+  .cardClienteForList p {
+    margin: 0 0 15px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .cardClienteForList .telefone {
+    font-weight: bold;
+  }
+  
+  .cardClienteForList:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  /* Responsive styles using media query */
+  @media screen and (max-width: 768px) {
+    .cardClienteForList {
+      width: 100%;
+      margin: 10px 0;
+    }
+  }
+  
+  @media screen and (min-width: 769px) {
+    .cardClienteForList {
+      width: 48%; /* Adjust the width as needed */
+      margin: 10px;
+    }
+  }  

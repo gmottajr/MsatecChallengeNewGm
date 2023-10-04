@@ -3,4 +3,5 @@ export interface Telefone {
     clienteId: string;
     numero: string;
     tipo: string;
+    tipoVal: number
 }

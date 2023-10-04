@@ -1,0 +1,19 @@
+<div class="container" style="margin-top: 60px;">
+    <h1>Home works!</h1>
+    <!-- <h1>{{title}}</h1> -->
+    <div class="row">
+        <div class="col-lm-12">
+            <ul class="listClientes">
+                <li *ngFor="let cliente of clienteList">
+                    <div class="cardWrapper">
+                        <div class="cardClienteForList">
+                          <h2>{{ cliente.nome }}</h2>
+                          <p><strong>Email:</strong> {{ cliente.email }}</p>
+                          <p class="telefone"><strong>Telefone:</strong> {{ cliente.telefonePrincipal }}</p>
+                        </div>
+                      </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>

@@ -1,0 +1,103 @@
+<div class="container mt-5">
+    <div style="text-align: center;">
+        <h1>
+            Cadastro de Clientes
+        </h1>
+        <p class="lead">Digite os dados do cliente:</p>
+         <form #cadastroDeClienteForm (ngSubmit)="cadastrar()">
+            <div class="row mb-3">
+                <div class="col-lm-6">
+                    <div class="form-group">
+                        <input type="text" 
+                        class="form-control" 
+                        name="nome" 
+                        [(ngModel)]="model.nome"
+                        placeholder="Nome">
+                    </div>
+                </div>
+                <div class="col-lm-6">
+                    <div class="form-group">
+                        <input type="email" 
+                        class="form-control" 
+                        name="email" 
+                        [(ngModel)]="model.email"
+                        placeholder="E-Mail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lm-6">
+                    <div class="form-group">
+                        <input type="date" 
+                        class="form-control" 
+                        name="dataNascimento" 
+                        [(ngModel)]="model.dataNascimento"
+                        placeholder="Data de Nascimento">
+                    </div>
+                </div>
+                <div class="col-lm-6">
+                    <div class="form-group">
+                        <input type="email" 
+                        class="form-control" 
+                        name="email" 
+                        [(ngModel)]="model.email"
+                        placeholder="E-Mail">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lm-3">
+                    <div class="form-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="tel" 
+                        [(ngModel)]="addingTelefoneVal" 
+                        name="addingTelefoneVal"
+                        class="form-control"  
+                        placeholder="Telefone">
+                    </div>
+                </div>
+                <div class="col-lm-3">
+                    <div class="form-group">
+                        <label for="tipoTelefone">Tipo de Telefone:</label>
+                        <select id="tipoTelefone" class="form-control" [(ngModel)]="selectedTipoTelefone" name="tipoTelefone">
+                          <option *ngFor="let tipoTelefone of tipoTelefoneOptions" [value]="tipoTelefone.id">{{ tipoTelefone.descricao }}</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="col-lm-3">
+                    <div class="form-group">
+                        <button type="button" (click)="addTelefone()">Add Telefone</button>
+                    </div>
+                </div>
+                <div class="col-lm-3">
+                    <div *ngFor="let telefone of model.telefones; let i = index" class="form-group">
+                        <label for="telefoneId{{i}}">Telefone ID:</label>
+                        <input type="text" class="form-control" id="telefoneId{{i}}" [(ngModel)]="telefone.id">
+                    
+                        <label for="numero{{i}}">Número:</label>
+                        <input type="tel" class="form-control" id="numero{{i}}" [(ngModel)]="telefone.numero">
+                    
+                        <label for="tipo{{i}}">Tipo:</label>
+                        <input type="text" class="form-control" id="tipo{{i}}" [(ngModel)]="telefone.tipo">
+                    
+                        <button type="button" (click)="removeTelefone(i)">Remove</button>
+                      </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lm-6">
+                    <div class="form-group center">
+                        <button class="btn btn-success me-2" type="submit"> Salvar</button>
+                    </div>
+                </div>
+                <div class="col-lm-6">
+                    <div class="form-group center">
+                        <button class="btn btn-default" type="button" (click)="cancelar()"> Cancelar</button>
+                    </div>
+                </div>
+            </div>
+         </form>
+    </div>
+</div>

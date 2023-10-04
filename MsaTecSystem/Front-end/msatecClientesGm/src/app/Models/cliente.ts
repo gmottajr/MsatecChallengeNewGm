@@ -6,3 +6,11 @@ export interface ClienteForLists {
     email: string;
     telefonePrincipal: Telefone;
 }
+
+export interface Cliente {
+    id: string;
+    nome: string;
+    email: string;
+    dataNascimento?: Date | null;
+    telefones: Telefone[];
+  }

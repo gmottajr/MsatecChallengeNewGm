@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Cliente } from '../Models/cliente';
 import { ClienteService } from '../_services/cliente.service';
 import {TipoTelefoneDTO} from '../Models/DTOs/tipoTelefoneDto';
@@ -10,12 +10,14 @@ import {TipoTelefoneDTO} from '../Models/DTOs/tipoTelefoneDto';
 })
 export class CadastroClienteComponent implements OnInit {
 
+  @Output() cancelcadastro = new EventEmitter();
   model: Cliente = {
     id: '', 
     nome: '',
     email: '',
     dataNascimento: null, 
-    telefones: [] 
+    telefones: [],
+    isInserting: false 
   };
 
   tipoTelefoneOptions: TipoTelefoneDTO[] = [
@@ -27,6 +29,8 @@ export class CadastroClienteComponent implements OnInit {
 
   selectedTipoTelefone: number = 0;
   addingTelefoneVal: string = '';
+  selectedTipoTelefoneDesc: string = '';
+
   constructor(private clienteService: ClienteService){}
   
   ngOnInit(): void {
@@ -35,15 +39,28 @@ export class CadastroClienteComponent implements OnInit {
 
   cadastrar()
   {
-
+    this.clienteService.insertNovo(this.model).subscribe({
+      next: (response: any) => {console.log(response)}
+    });
   }
 
   cancelar()
   {
+    this.model = {
+      id: '', 
+      nome: '',
+      email: '',
+      dataNascimento: null, 
+      telefones: [],
+      isInserting: false 
+    };
 
+    this.cancelcadastro.emit(false);
   }
 
   addTelefone() {
+    console.log('adding phoe:', this.addingTelefoneVal);
+    console.log(this.selectedTipoTelefone);
     this.model.telefones.push({ id: '', 
                                 clienteId: this.model.id, 
                                 numero: this.addingTelefoneVal, 

@@ -1,0 +1,38 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+select.form-control {
+    width: 100%;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-default {
+    background-color: #ccc;
+    color: #333;
+}
+
+/* Optional: Style the 'Add Telefone' button */
+.button-add-telefone {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.button-add-telefone:hover {
+    background-color: #0056b3;
+}

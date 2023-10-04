@@ -13,4 +13,5 @@ export interface Cliente {
     email: string;
     dataNascimento?: Date | null;
     telefones: Telefone[];
+    isInserting: boolean;
   }

@@ -1,5 +1,5 @@
 <div class="container mt-5">
-    <div style="text-align: center;">
+    <div>
         <h1>
             Cadastro de Clientes
         </h1>
@@ -50,7 +50,6 @@
             <div class="row mb-3">
                 <div class="col-lm-3">
                     <div class="form-group">
-                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
                         <input type="tel" 
                         [(ngModel)]="addingTelefoneVal" 
                         name="addingTelefoneVal"
@@ -61,7 +60,7 @@
                 <div class="col-lm-3">
                     <div class="form-group">
                         <label for="tipoTelefone">Tipo de Telefone:</label>
-                        <select id="tipoTelefone" class="form-control" [(ngModel)]="selectedTipoTelefone" name="tipoTelefone">
+                        <select id="tipoTelefone" class="form-control" [(ngModel)]="selectedTipoTelefone" name="selectedTipoTelefone">
                           <option *ngFor="let tipoTelefone of tipoTelefoneOptions" [value]="tipoTelefone.id">{{ tipoTelefone.descricao }}</option>
                         </select>
                       </div>
@@ -73,15 +72,14 @@
                 </div>
                 <div class="col-lm-3">
                     <div *ngFor="let telefone of model.telefones; let i = index" class="form-group">
-                        <label for="telefoneId{{i}}">Telefone ID:</label>
-                        <input type="text" class="form-control" id="telefoneId{{i}}" [(ngModel)]="telefone.id">
-                    
-                        <label for="numero{{i}}">Número:</label>
-                        <input type="tel" class="form-control" id="numero{{i}}" [(ngModel)]="telefone.numero">
-                    
-                        <label for="tipo{{i}}">Tipo:</label>
-                        <input type="text" class="form-control" id="tipo{{i}}" [(ngModel)]="telefone.tipo">
-                    
+                        <label for="numero{{i}}"><strong>Número:</strong></label>&nbsp;&nbsp;&nbsp;
+                        <span>{{telefone.numero}}</span>
+                        <input type="hidden" class="form-control" id="numero{{i}}" [(ngModel)]="telefone.numero" name="telefone.numero">
+                        &nbsp;&nbsp;&nbsp;
+                        <label for="tipo{{i}}"><strong>Tipo:</strong></label>&nbsp;&nbsp;&nbsp;
+                        <span>{{telefone.tipo}}</span>
+                        <input type="hidden" class="form-control" id="tipo{{i}}" [(ngModel)]="telefone.tipo" name="telefone.tipo">
+                         
                         <button type="button" (click)="removeTelefone(i)">Remove</button>
                       </div>
                 </div>

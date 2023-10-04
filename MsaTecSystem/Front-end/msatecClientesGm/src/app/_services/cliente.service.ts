@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ClienteForLists } from '../Models/cliente';
+import { Observable, map } from 'rxjs';
+import { Cliente, ClienteForLists } from '../Models/cliente';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +21,14 @@ export class ClienteService {
     const gotUrl = this.baseUrl + 'cliente';
   }
 
-  insertNovo(model: any)
+  insertNovo(model: Cliente)
   {
-    const gotUrl = this.baseUrl;
+    model.isInserting = true;
+    console.log('inerindo cliente:', model);
+    const gotUrl = `${this.baseUrl}cliente`;
+    return this.http.post<Cliente>(gotUrl, model).pipe(
+      map(response => console.log('Inserted cliente:', response))
+    );
   }
 
   excluirById(id: string)

@@ -59,3 +59,6 @@ Daremos preferência aos testes que atendam aos seguintes critérios:
 - Minificação e técnicas que demonstrem preocupação com a performance no cliente e servidor (aplicação e banco de dados).
 
 🚀 Boa sorte! 🚀
+
+## OBS :sunglasses:
+O sciprit de criação do banco foi addicionado somente a título de informação extra. Ele não deverá ser executado, visto que o back-and conta com migrations que deverão ser executadas para a criação do banco. Caso mesmo assim você opte por rodar o script sql de criação do banco, lembre-se de descomentar a linha 16 (\c "MsatecDb"). Neste caso as migrations não deverão ser executadas.

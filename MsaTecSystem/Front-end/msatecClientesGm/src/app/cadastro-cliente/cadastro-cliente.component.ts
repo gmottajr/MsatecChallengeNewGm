@@ -39,6 +39,12 @@ export class CadastroClienteComponent implements OnInit {
 
   cadastrar()
   {
+    if (!this.model.nome || !this.model.email || this.model.telefones.length == 0)
+    {
+      alert('Prencha os dados do clientes');
+      return;
+    }
+    
     this.clienteService.insertNovo(this.model).subscribe({
       next: (response: any) => {console.log(response)}
     });
@@ -61,11 +67,13 @@ export class CadastroClienteComponent implements OnInit {
   addTelefone() {
     console.log('adding phoe:', this.addingTelefoneVal);
     console.log(this.selectedTipoTelefone);
+    const descricaoTipo = this.tipoTelefoneOptions[this.selectedTipoTelefone -1].descricao;
+    console.log(descricaoTipo);
     this.model.telefones.push({ id: '', 
                                 clienteId: this.model.id, 
                                 numero: this.addingTelefoneVal, 
-                                tipoVal: this.selectedTipoTelefone,
-                                tipo: '' });
+                                tipo: this.selectedTipoTelefone,
+                                tipoDescricao: descricaoTipo });
   }
 
   removeTelefone(index: number) {

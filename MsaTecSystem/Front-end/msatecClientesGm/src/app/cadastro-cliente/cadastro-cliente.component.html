@@ -74,12 +74,12 @@
                     <div *ngFor="let telefone of model.telefones; let i = index" class="form-group">
                         <label for="numero{{i}}"><strong>Número:</strong></label>&nbsp;&nbsp;&nbsp;
                         <span>{{telefone.numero}}</span>
-                        <input type="hidden" class="form-control" id="numero{{i}}" [(ngModel)]="telefone.numero" name="telefone.numero">
+                        <!-- <input type="hidden" class="form-control" id="numero{{i}}" [(ngModel)]="telefone.numero" name="telefone.numero"> -->
                         &nbsp;&nbsp;&nbsp;
                         <label for="tipo{{i}}"><strong>Tipo:</strong></label>&nbsp;&nbsp;&nbsp;
-                        <span>{{telefone.tipo}}</span>
-                        <input type="hidden" class="form-control" id="tipo{{i}}" [(ngModel)]="telefone.tipo" name="telefone.tipo">
-                         
+                        <span>{{telefone.tipoDescricao}}</span>
+                        <!-- <input type="hidden" class="form-control" id="tipo{{i}}" [(ngModel)]="telefone.tipo" name="telefone.tipo"> -->
+                        &nbsp;&nbsp;&nbsp;
                         <button type="button" (click)="removeTelefone(i)">Remove</button>
                       </div>
                 </div>

@@ -11,7 +11,10 @@ CREATE DATABASE "MsatecDb"
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
-	
+
+-- Connect to the newly created database
+--\c "MsatecDb"
+
 -- Table: public.Clientes
 
 -- DROP TABLE IF EXISTS public."Clientes";

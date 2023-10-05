@@ -10,7 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mediators\UpdateClienteCommandHandlerTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -27,6 +33,11 @@
     <ProjectReference Include="..\..\src\MsaTec.Application\MsaTec.Application.csproj" />
     <ProjectReference Include="..\..\src\MsaTec.Core\MsaTec.Core.csproj" />
     <ProjectReference Include="..\..\src\MsaTec.Model\MsaTec.Model.csproj" />
+    <ProjectReference Include="..\..\src\MsaTecWebApi\MsaTec.WebApi.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

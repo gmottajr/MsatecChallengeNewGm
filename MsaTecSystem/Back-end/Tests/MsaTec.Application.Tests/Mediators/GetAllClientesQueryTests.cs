@@ -1,22 +1,15 @@
-﻿using AutoMapper;
+﻿using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsaTec.Abstractions.Application.Contract;
 using MsaTec.Application.Mediators.Commands;
-using MsaTec.Application.ProfilerMapping;
-using MsaTec.DAL.Data;
-using MsaTec.DAL.Repositories.Contracts;
-using MsaTec.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using MsaTec.Abstractions.Persistence.Contracts;
-using MsaTec.Application.ViewModels;
 using MsaTec.Application.Mediators.Queries;
+using MsaTec.Application.ViewModels;
+using MsaTec.DAL.Data;
+using MsaTec.DAL.Repositories;
+using MsaTec.DAL.Repositories.Contracts;
 
 namespace MsaTec.Application.Tests.Mediators;
 
@@ -27,12 +20,19 @@ public class GetAllClientesQueryTests
 
     public GetAllClientesQueryTests()
     {
+        var basePath = AppContext.BaseDirectory;
+        // Set up configuration and services here 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .Build();
+
         _ServiceProvider = new ServiceCollection()
+            .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<DbContextMsaTec>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
             .AddScoped<IClienteRepository, ClientesRepository>() // Replace YourClienteRepository with your actual repository implementation
             .AddAutoMapper(typeof(InsertClienteCommand)) // Assuming AutoMapper profiles are configured in Startup class
             .AddScoped<IRequestHandler<InsertClienteCommand, ICommandResult>, InsertClienteCommand.Handler>()
-            .AddScoped<IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelList>>, GetAllClientesQuery.Handler>()
+            .AddScoped<IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelForList>>, GetAllClientesQuery.Handler>()
             .AddScoped<IMediator, Mediator>()
             .BuildServiceProvider();
     }
@@ -55,14 +55,14 @@ public class GetAllClientesQueryTests
                     var rst = await _Mediator.Send(command, CancellationToken.None);
                     rst.IsSuccess.Should().BeTrue();
                 };
-            }
 
-            // Act
-            var qry = new GetAllClientesQuery();
-            var clientesInserted = await _Mediator.Send(qry, CancellationToken.None);
-            // Assert
-            clientesInserted.Should().NotBeNull();
-            clientesInserted.Should().HaveCount(dataList.Count);
+                // Act
+                var qry = new GetAllClientesQuery();
+                var clientesInserted = await _Mediator.Send(qry, CancellationToken.None);
+                // Assert
+                clientesInserted.Should().NotBeNull();
+                clientesInserted.Should().HaveCount(dataList.Count);
+            }
         }
     }
 

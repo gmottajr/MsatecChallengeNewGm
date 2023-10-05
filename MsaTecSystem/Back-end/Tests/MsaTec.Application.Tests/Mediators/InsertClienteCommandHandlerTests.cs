@@ -36,18 +36,18 @@ public class InsertClienteCommandHandlerTests
             .UseInMemoryDatabase(databaseName: "InMemoryDatabase")
             .Options;
 
+        _Configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .Build();
+
         _ServiceProvider = new ServiceCollection()
+            .AddSingleton<IConfiguration>(_Configuration)
             .AddDbContext<DbContextMsaTec>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
             .AddScoped<IClienteRepository, ClientesRepository>() // Replace YourClienteRepository with your actual repository implementation
             .AddAutoMapper(typeof(InsertClienteCommand)) // Assuming AutoMapper profiles are configured in Startup class
             .AddScoped<IRequestHandler<InsertClienteCommand, ICommandResult>, InsertClienteCommand.Handler>()
             .AddScoped<IMediator, Mediator>()
-            .BuildServiceProvider();
-        
-        _Configuration = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        //.AddJsonFile("appsettings.json") // Provide the path to your appsettings.json file
-        .Build();
+            .BuildServiceProvider();        
     }
 
     [Fact]

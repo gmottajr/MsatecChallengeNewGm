@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsaTec.Abstractions.Application.Contract;
 using MsaTec.Application.Mediators.Commands;
@@ -19,7 +20,15 @@ public class GetClienteByIdQueryTests
 
     public GetClienteByIdQueryTests()
     {
+        var basePath = AppContext.BaseDirectory;
+        // Set up configuration and services here 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
         _ServiceProvider = new ServiceCollection()
+            .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<DbContextMsaTec>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
             .AddScoped<IClienteRepository, ClientesRepository>() // Replace YourClienteRepository with your actual repository implementation
             .AddAutoMapper(typeof(InsertClienteCommand)) // Assuming AutoMapper profiles are configured in Startup class
@@ -52,7 +61,7 @@ public class GetClienteByIdQueryTests
             foreach (var clienteViewModel in dataList)
             {
                 // Act
-                var qry = new GetClienteByIdQuery(clienteViewModel.Id);
+                var qry = new GetClienteByIdQuery(clienteViewModel.Id.GetValueOrDefault());
                 var clienteInserted = await _Mediator.Send(qry, CancellationToken.None);
 
                 // Assert

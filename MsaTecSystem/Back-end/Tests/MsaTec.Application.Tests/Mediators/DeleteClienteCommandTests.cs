@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 
 namespace MsaTec.Application.Tests.Mediators;
 
@@ -24,7 +25,15 @@ public class DeleteClienteCommandTests
 
     public DeleteClienteCommandTests()
     {
+        var basePath = AppContext.BaseDirectory;
+        // Set up configuration and services here 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
         _ServiceProvider = new ServiceCollection()
+            .AddSingleton<IConfiguration>(configuration)
             .AddDbContext<DbContextMsaTec>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
             .AddScoped<IClienteRepository, ClientesRepository>() // Replace YourClienteRepository with your actual repository implementation
             .AddAutoMapper(typeof(InsertClienteCommand)) // Assuming AutoMapper profiles are configured in Startup class
@@ -58,10 +67,10 @@ public class DeleteClienteCommandTests
             foreach (var clienteViewModel in dataList)
             {
                 // Act
-                var deleteCommand = new DeleteClienteCommand(clienteViewModel.Id);
+                var deleteCommand = new DeleteClienteCommand(clienteViewModel.Id.GetValueOrDefault());
                 var deleteResult = await _Mediator.Send(deleteCommand, CancellationToken.None);
 
-                var qry = new GetClienteByIdQuery(clienteViewModel.Id);
+                var qry = new GetClienteByIdQuery(clienteViewModel.Id.GetValueOrDefault());
                 var clienteInserted = await _Mediator.Send(qry, CancellationToken.None);
 
                 // Assert

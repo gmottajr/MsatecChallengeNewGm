@@ -5,9 +5,9 @@ using MsaTec.DAL.Repositories.Contracts;
 
 namespace MsaTec.Application.Mediators.Queries;
 
-public class GetAllClientesQuery : IRequest<IEnumerable<ClienteViewModelList>>
+public class GetAllClientesQuery : IRequest<IEnumerable<ClienteViewModelForList>>
 {
-    public class Handler : IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelList>>
+    public class Handler : IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelForList>>
     {
         private readonly IMapper _mapper;
         private readonly IClienteRepository _clienteRepository;
@@ -18,10 +18,10 @@ public class GetAllClientesQuery : IRequest<IEnumerable<ClienteViewModelList>>
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<IEnumerable<ClienteViewModelList>> Handle(GetAllClientesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ClienteViewModelForList>> Handle(GetAllClientesQuery request, CancellationToken cancellationToken)
         {
             var clientes = await _clienteRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<ClienteViewModelList>>(clientes);
+            return _mapper.Map<IEnumerable<ClienteViewModelForList>>(clientes);
         }
     }
 }

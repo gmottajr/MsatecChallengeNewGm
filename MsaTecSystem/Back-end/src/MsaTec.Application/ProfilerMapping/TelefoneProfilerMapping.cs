@@ -10,8 +10,8 @@ public class TelefoneProfilerMapping : Profile
     public TelefoneProfilerMapping()
     {
         // Telefone to TelefoneViewModelList and vice-versa
-        CreateMap<Telefone, TelefoneViewModelList>();
-        CreateMap<TelefoneViewModelList, Telefone>();
+        CreateMap<Telefone, TelefoneViewModelForList>();
+        CreateMap<TelefoneViewModelForList, Telefone>();
 
         // Telefone to TelefoneViewModel and vice-versa
         CreateMap<Telefone, TelefoneViewModel>()

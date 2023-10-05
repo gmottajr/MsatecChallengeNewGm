@@ -44,7 +44,7 @@ public class ClienteControllerTests
             .AddDbContext<DbContextMsaTec>(options => options.UseInMemoryDatabase(databaseName: "InMemoryDatabase"))
             .AddAutoMapper(typeof(ClienteControllerTests))
             .AddScoped<IClienteRepository, ClientesRepository>()
-            .AddScoped<IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelList>>, GetAllClientesQuery.Handler>()
+            .AddScoped<IRequestHandler<GetAllClientesQuery, IEnumerable<ClienteViewModelForList>>, GetAllClientesQuery.Handler>()
             .AddScoped<IRequestHandler<GetClienteByIdQuery, ClienteViewModel>, GetClienteByIdQuery.Handler>()
             .AddScoped<IRequestHandler<InsertClienteCommand, ICommandResult>, InsertClienteCommand.Handler>()
             .AddScoped<IRequestHandler<UpdateClienteCommand, ICommandResult>, UpdateClienteCommand.Handler>()

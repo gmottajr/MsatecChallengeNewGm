@@ -2,7 +2,7 @@
 
 namespace MsaTec.Application.ViewModels;
 
-public class TelefoneViewModelList : ViewModelBase
+public class TelefoneViewModelForList : ViewModelBase
 {
     public Guid? Id { get; set; }
     public Guid? ClienteId { get; set; }

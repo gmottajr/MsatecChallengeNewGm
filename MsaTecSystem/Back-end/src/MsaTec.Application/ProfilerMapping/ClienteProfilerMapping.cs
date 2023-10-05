@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MsaTec.Application.ViewModels;
+using MsaTec.Core.Enums;
 using MsaTec.Model;
 
 namespace MsaTec.Application.ProfilerMapping;
@@ -9,12 +10,11 @@ public class ClienteProfilerMapping : Profile
     public ClienteProfilerMapping()
     {
         // Cliente to ClienteViewModelList and vice-versa
-        CreateMap<Cliente, ClienteViewModelList>()
-            .ForMember(dest => dest.TelefonePrincipal, opt => 
-               opt.MapFrom(src => src.Telefones.FirstOrDefault(t => t.Tipo == Core.Enums.TipoTelefoneEnum.Pessoal) != null ?
-               src.Telefones.FirstOrDefault(t => t.Tipo == Core.Enums.TipoTelefoneEnum.Pessoal) :
-               src.Telefones.FirstOrDefault()));
-        CreateMap<ClienteViewModelList, Cliente>();
+        CreateMap<Cliente, ClienteViewModelForList>()
+    .ForMember(dest => dest.TelefonePrincipal, opt =>
+        opt.MapFrom(src => src.Telefones.FirstOrDefault(t => t.Tipo == TipoTelefoneEnum.Pessoal) ?? src.Telefones.FirstOrDefault()));
+
+        CreateMap<ClienteViewModelForList, Cliente>();
 
         // Cliente to ClienteViewModel and vice-versa
         CreateMap<Cliente, ClienteViewModel>()

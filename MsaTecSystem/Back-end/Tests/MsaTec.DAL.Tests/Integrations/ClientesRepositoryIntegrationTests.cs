@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using MsaTec.Core.Enums;
+using MsaTec.Core.Exceptions;
 using MsaTec.DAL.Data;
 using MsaTec.DAL.Repositories.Contracts;
 using MsaTec.Model;
@@ -49,6 +50,73 @@ public  class ClientesRepositoryIntegrationTests : IClassFixture<DbContextFixtur
 
     }
 
+
+    [Fact]
+    public async Task ShouldThrowModelValidateExceptionWhenInsertingClienteWithNoName()
+    {
+        // Arrange
+        var cliente = new Cliente
+        {
+            Nome = string.Empty,
+            Email = "test@test.com",
+            DataNascimento = new DateTime(1970, 05, 02),
+            Telefones = new List<Telefone> { new Telefone() { Numero = "+5521999548732", Tipo = GetRandomTipoTelefone() } },
+        };
+
+        // Act & Assert
+        Func<Task> act = async () => await _clienteRepository.InsertAsync(cliente);
+        await act.Should().ThrowAsync<ModelValidateException>();
+
+        // Assert
+        Assert.Equal(Guid.Empty, cliente.Id);
+
+    }
+
+    [Fact]
+    public async Task ShouldThrowModelValidateExceptionWhenInsertingClienteWithNoEmail()
+    {
+        // Arrange
+        var cliente = new Cliente
+        {
+            Nome = "Teste da Candonga",
+            Email = string.Empty,
+            DataNascimento = new DateTime(1970, 05, 02),
+            Telefones = new List<Telefone> { new Telefone() { Numero = "+5521999548732", Tipo = GetRandomTipoTelefone() } },
+        };
+
+        // Act & Assert
+        Func<Task> act = async () => await _clienteRepository.InsertAsync(cliente);
+        await act.Should().ThrowAsync<ModelValidateException>();
+
+        // Assert
+        Assert.Equal(Guid.Empty, cliente.Id);
+
+    }
+
+
+    [Fact]
+    public async Task ShouldInsertClienteWithNoTelefoneSuccessfully()
+    {
+        // Arrange
+        var cliente = new Cliente
+        {
+            Nome = "Teste da Candonga",
+            Email = "test@test283.test",
+            DataNascimento = new DateTime(1970, 05, 02),
+            Telefones = new List<Telefone>(),
+        };
+
+        // Act & Assert
+        await _clienteRepository.InsertAsync(cliente);
+
+        var insertedCliente = await _clienteRepository.GetByIdAsync(cliente.Id);
+
+        // Assert
+        Assert.NotNull(insertedCliente);
+        Assert.Equal(cliente.Id, insertedCliente?.Id);
+
+        await ClearDatabaseAsync();
+    }
 
     [Fact]
     public async Task Update_ShouldUpdateCliente()

@@ -61,12 +61,6 @@ public class DbContextMsaTec : DbContext//, IUnitOfWorks
             }
         }
 
-        //Calls entity's validates data method before persisting the object
-        foreach (var entry in ChangeTracker.Entries().Where(entry => (entry.State == EntityState.Modified || entry.State == EntityState.Added) && entry.Entity is EntityBase))
-        {
-            ((EntityBase)entry.Entity).Validate();
-        }
-
         return await this.SaveChangesAsync() > 0;
     }
 

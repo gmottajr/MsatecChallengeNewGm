@@ -62,6 +62,11 @@ public class GetAllClientesQueryTests
                 // Assert
                 clientesInserted.Should().NotBeNull();
                 clientesInserted.Should().HaveCount(dataList.Count);
+                foreach (var item in clientesInserted)
+                {
+                    item.TelefonePrincipal.Should().NotBeNull();
+                    item.TelefonePrincipal.Should().NotBe(string.Empty);
+                }
             }
         }
     }

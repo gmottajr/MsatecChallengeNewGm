@@ -3,6 +3,8 @@ ul.listClientes {
     list-style: none;
     padding: 0;
     margin-top: 30px;
+    max-width: 500px;
+    position: relative;
   }
   
   ul.listClientes li {

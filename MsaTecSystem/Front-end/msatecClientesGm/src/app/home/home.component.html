@@ -1,20 +1,22 @@
 <div class="container" style="margin-top: 60px;">
-    <h1>Home works!</h1>
+    <h1 class="text-info">Lista de Clientes</h1>
     <!-- <h1>{{title}}</h1> -->
     <div class="row">
         <div class="col-lm-12">
             <ul class="listClientes">
                 <li *ngFor="let cliente of clienteList" class="listItem">
-                    <div class="cardWrapper">
-                        <div class="cardClienteForList">
-                            <h2>{{ cliente.nome }}</h2>
-                            <p><strong>Email:</strong> {{ cliente.email }}</p>
-                            <p class="telefone"><strong>Telefone:</strong> {{ cliente.telefonePrincipal }}</p>
+                    <div class="card" style="width: 32rem;">
+                        <h5 class="card-header text-info">{{ cliente.nome }}</h5>
+                        <div class="card-body">
+                          <h5 class="card-title"><p><strong>Email:</strong> {{ cliente.email }}</p></h5>
+                          <p class="card-text"><strong>Telefone:</strong> {{ cliente.telefonePrincipal.numero }} &nbsp;&nbsp;&nbsp; <strong>Tipo:</strong> {{ cliente.telefonePrincipal.tipo }} </p>
                         </div>
-                    </div>
-                    <div class="buttonWrapper">
-                        <button class="btn btn-danger" (click)="deleteCliente(cliente.id)">Delete</button>
-                    </div>
+                        <div class="card-footer text-body-secondary">
+                            <div class="d-flex justify-content-start">
+                                <button name="deleteCliente" class="btn btn-danger" (click)="deleteCliente(cliente.id)">Delete</button>
+                            </div>
+                          </div>
+                      </div>
                 </li>                
             </ul>
         </div>

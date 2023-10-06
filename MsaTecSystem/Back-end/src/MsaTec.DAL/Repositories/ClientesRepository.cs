@@ -12,6 +12,7 @@ public class ClientesRepository : RepositoryBase<Cliente>, IClienteRepository
         _DbSet = dbContext.Clientes;
     }
 
+
     public override async Task DeleteAsync(Guid id)
     {
         var cliente = await GetByIdAsync(id);

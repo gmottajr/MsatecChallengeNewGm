@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using MsaTec.Application.ViewModels;
 using MsaTec.DAL.Repositories.Contracts;
 
@@ -20,7 +21,9 @@ public class GetAllClientesQuery : IRequest<IEnumerable<ClienteViewModelForList>
 
         public async Task<IEnumerable<ClienteViewModelForList>> Handle(GetAllClientesQuery request, CancellationToken cancellationToken)
         {
-            var clientes = await _clienteRepository.GetAllAsync();
+            var clientes = await _clienteRepository.QueryAsync(expression: null, 
+                c => c.OrderBy(cl => cl.Nome), 
+                include: clnt => clnt.Include(c => c.Telefones));
             return _mapper.Map<IEnumerable<ClienteViewModelForList>>(clientes);
         }
     }

@@ -12,6 +12,10 @@ public class Telefone: EntityRootBase
     public Guid ClienteId { get; set; }
     public Cliente Cliente { get; set; }
 
+    public Telefone()
+    {
+        this.Id = Guid.NewGuid();
+    }
     public override void Validate()
     {
         if (Numero.IsEmpty()) throw new ModelValidateException("Campo requerido: Numero do Telefone.");

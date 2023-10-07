@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MsaTec.Core.Enums;
 using MsaTec.Core.Exceptions;
@@ -144,14 +145,17 @@ public  class ClientesRepositoryIntegrationTests : IClassFixture<DbContextFixtur
     [Fact]
     public async Task DeleteAsync_ShouldDeleteCliente()
     {
+        await ClearDatabaseAsync();
+
         // Arrange and Act
         List<Cliente> clientes = await InsertData();
 
         // Act
-        Random _random = new Random();
         foreach (var cliente in clientes)
         {
             // Act
+            cliente.Telefones.RemoveAll(t => true);
+            await _clienteRepository.Update(cliente);
             await _clienteRepository.DeleteAsync(cliente.Id);
             var deletedCliente = await _clienteRepository.GetByIdAsync(cliente.Id);
 
@@ -189,7 +193,7 @@ public  class ClientesRepositoryIntegrationTests : IClassFixture<DbContextFixtur
 
     private async Task ClearDatabaseAsync()
     {
-        var insertedClientes = _dbContext.Clientes.ToList();
+        var insertedClientes = _dbContext.Clientes.Include(c => c.Telefones).ToList();
         var telefonesInserted = (from c in insertedClientes
                                  from t in c.Telefones
                                  select t).ToList();
@@ -253,7 +257,7 @@ public  class ClientesRepositoryIntegrationTests : IClassFixture<DbContextFixtur
     private async Task<List<Cliente>> InsertData()
     {
         var clientes = new List<Cliente>();
-
+        var uniqueEmails = new HashSet<string>();
         foreach (var clnt in GenerateClientes())
         {
             var cliente = new Cliente
@@ -264,6 +268,15 @@ public  class ClientesRepositoryIntegrationTests : IClassFixture<DbContextFixtur
                 Telefones = new List<Telefone> { new Telefone() { Numero = ExtractTelefoneNumber(clnt.Value.Telefone), Tipo = GetRandomTipoTelefone() } },
 
             };
+
+            if (!uniqueEmails.Add(cliente.Email))
+            {
+                var rnd = new Random();
+                var processaEmaillist = cliente.Email.Split('@');
+                var gotEmail = $"{processaEmaillist[0]}{rnd.Next(1, 3000)}@{processaEmaillist[1]}";
+                cliente.Email = gotEmail;
+                uniqueEmails.Add(gotEmail);
+            }
 
             clientes.Add(cliente);
 

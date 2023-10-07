@@ -8,6 +8,7 @@ using MsaTec.DAL.Repositories;
 
 namespace MsaTec.DAL.Tests.Integrations;
 
+[Collection("Non-Parallel Collection")]
 public class DbContextFixture : IDisposable
 {
     public ServiceProvider ServiceProvider { get; private set; }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using MsaTec.Abstractions.Application.Contract;
 using MsaTec.Application.ViewModels;
 using MsaTec.Core;
+using MsaTec.Core.Exceptions;
 using MsaTec.Core.Extensions;
 using MsaTec.DAL.Repositories.Contracts;
 using MsaTec.Model;
@@ -39,7 +41,10 @@ public class UpdateClienteCommand : IRequest<ICommandResult>
             var result = new CommandResult();
             try
             {
-                var gotEntity = await _clienteRepository.GetByIdAsync(request.ClienteViewModel.Id.GetValueOrDefault());
+                var gotEntity = await _clienteRepository.QuerySingleAsync(expression: Cl => Cl.Id == request.ClienteViewModel.Id,
+                c => c.OrderBy(cl => cl.Nome),
+                include: clnt => clnt.Include(c => c.Telefones));
+
                 if (gotEntity == null)
                 {
                     result.MessageError.Add($"Cliente with ID {request.ClienteViewModel.Id} not found.");
@@ -48,7 +53,19 @@ public class UpdateClienteCommand : IRequest<ICommandResult>
 
                 // Update the entity properties from the view model
                 _mapper.Map(request.ClienteViewModel, gotEntity);
-
+                //foreach(var telefoneVm in request.ClienteViewModel.Telefones)
+                //{
+                //    var gotTel = gotEntity.Telefones.FirstOrDefault(tl => tl.Id == telefoneVm.Id);
+                //    if(gotTel != null) 
+                //    {
+                //        _mapper.Map<TelefoneViewModel, Telefone>(telefoneVm, gotTel);
+                //    }
+                //    else 
+                //    {
+                //        throw new ApplicationDataNotFoundException("Msatec mapping ERROR: Expected telefone was not found");
+                //    }
+                    
+                //}
                 await _clienteRepository.Update(gotEntity);
                 result.IsSuccess = true;
             }

@@ -18,7 +18,7 @@ public class TelefoneConfiguration : IEntityTypeConfiguration<Telefone>
 
         // Configuração da chave primária.
         builder.HasKey(e => e.Id);
-        
+        builder.Property(e => e.Id).ValueGeneratedNever();
         // Configuração do campo Numero.
         builder.Property(e => e.Numero)
             .IsRequired()

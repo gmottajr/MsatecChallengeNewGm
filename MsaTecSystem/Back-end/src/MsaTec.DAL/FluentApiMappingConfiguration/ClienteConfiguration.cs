@@ -19,7 +19,7 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
 
         // Configuração da chave primária.
         builder.HasKey(e => e.Id);
-
+        
         // Configuração do campo Nome.
         builder.Property(e => e.Nome)
             .IsRequired()
@@ -37,10 +37,8 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
             .HasColumnType("date");
 
         // Configuração da relação com a entidade Telefone (um Cliente pode ter vários Telefones).
-        //builder.HasMany(e => e.Telefones)
-        //    .WithOne()
-        //    .HasForeignKey(telefone => telefone.ClienteId)
-        //    .OnDelete(DeleteBehavior.Cascade); // Permite a exclusão em cascata dos telefones quando um cliente for excluído.
+        builder.HasMany(e => e.Telefones)
+            .WithOne(c => c.Cliente); // Permite a exclusão em cascata dos telefones quando um cliente for excluído.
 
         // Outras configurações, como índices, podem ser adicionadas conforme necessário.
         builder.Property(v => v.CreatedWhen).HasColumnName("CriadoEm").IsRequired().HasDefaultValueSql("CURRENT_DATE");

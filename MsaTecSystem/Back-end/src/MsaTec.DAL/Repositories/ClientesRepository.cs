@@ -13,15 +13,15 @@ public class ClientesRepository : RepositoryBase<Cliente>, IClienteRepository
     }
 
 
-    public override async Task DeleteAsync(Guid id)
-    {
-        var cliente = await GetByIdAsync(id);
+    //public override async Task DeleteAsync(Guid id)
+    //{
+    //    var cliente = await GetByIdAsync(id);
 
-        if (cliente.Telefones.Count > 0)
-            ((DbContextMsaTec)_DbContext).Telefones.RemoveRange(cliente.Telefones);
+    //    if (cliente.Telefones.Count > 0)
+    //        ((DbContextMsaTec)_DbContext).Telefones.RemoveRange(cliente.Telefones);
 
-        await base.DeleteAsync(id);
-    }
+    //    await base.DeleteAsync(id);
+    //}
 
     public override async Task<bool> SaveChangesAsync()
     {

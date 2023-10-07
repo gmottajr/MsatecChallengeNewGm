@@ -25,8 +25,8 @@ public class DbContextMsaTec : DbContext//, IUnitOfWorks
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-          optionsBuilder.UseNpgsql(_configuration.GetConnectionString(GetConnectionStringAlias()));
-        //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=MsatecDb;User Id=postgres;Password=XXXXX-XXX;");
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString(GetConnectionStringAlias()));
+        //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=MsatecDb;User Id=postgres;Password=123Msatec@;");
 
     }
 

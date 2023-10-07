@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MsaTec.Core.Enums;
@@ -23,6 +24,13 @@ namespace MsaTec.DAL.Tests.Integrations
         [Fact]
         public async Task InsertAndDeleteClientesWithTelefones()
         {
+             if (_dbContext.Clientes.Count() > 0)
+            {
+                _dbContext.Telefones.RemoveRange(_dbContext.Telefones);
+                _dbContext.Clientes.RemoveRange(_dbContext.Clientes);
+                await _dbContext.Commit();
+            }
+
             // Arrange
             var telefones = new List<Telefone>
             {
@@ -31,18 +39,19 @@ namespace MsaTec.DAL.Tests.Integrations
             };
 
             var clientes = new List<Cliente>();
-
+            var rnd = new Random();
             for (var i = 1; i <= 20; i++)
             {
                 var cliente = new Cliente
                 {
                     Nome = $"Cliente{i}",
-                    Email = $"cliente{i}@example.com",
+                    Email = $"cliente{rnd.Next(1, 4000)}_{i}@example.com",
                     DataNascimento = DateTime.UtcNow.AddYears(-i),
                     Telefones = telefones
                 };
 
-                clientes.Add(cliente);
+                if (!_dbContext.Clientes.Any(c => c.Email == cliente.Email))
+                    clientes.Add(cliente);
             }
 
             foreach (var clnt in GenerateClientes())
@@ -56,17 +65,16 @@ namespace MsaTec.DAL.Tests.Integrations
                     
                 };
 
-                clientes.Add(cliente);
+                if (!_dbContext.Clientes.Any(c => c.Email == cliente.Email)) 
+                  clientes.Add(cliente);
             }
 
-            // Act
-           
-            _dbContext.Clientes.AddRange(clientes);
+            await _dbContext.Clientes.AddRangeAsync(clientes);
             await _dbContext.Commit();
 
             // Assert
             var insertedClientes = _dbContext.Clientes.ToList();
-            Assert.Equal(34, insertedClientes.Count);
+            Assert.Equal(clientes.Count(), insertedClientes.Count);
             Assert.All(insertedClientes, c => Assert.NotEqual(Guid.Empty, c.Id));
             Assert.All(insertedClientes, c => Assert.True(c.Telefones.Count > 0));
 

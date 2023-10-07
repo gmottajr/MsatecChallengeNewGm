@@ -3,7 +3,7 @@
 
 namespace MsaTec.Core.Extensions;
 
-public static class ExceptionExtensionsShopMix
+public static class ExceptionExtensions
 {
     public static string ExtractInfoAll(this Exception value)
     {

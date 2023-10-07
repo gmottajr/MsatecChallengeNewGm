@@ -87,8 +87,48 @@ public class UpdateClienteCommandHandlerTests
                     updateRst.MessageError.Count.Should().Be(0);
                     var updatedCliente = await dbContext.Clientes.FirstOrDefaultAsync(c => c.Id == clienteId);
                     updatedCliente.Should().NotBeNull();
-                    if(updatedCliente != null)
-                      updatedCliente.Nome.Should().Be(nomeUpdating);
+                    if (updatedCliente != null)
+                        updatedCliente.Nome.Should().Be(nomeUpdating);
+                };
+            }
+        }
+
+    }
+
+    [Fact]
+    public async Task Handle_ValidRequest_UpdatesClienteTelefoneSuccessfully_UsingMediator()
+    {
+        // Arrange
+        using (var scope = _ServiceProvider.CreateScope())
+        {
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<DbContextMsaTec>())
+            {
+                _Mediator = _ServiceProvider.GetRequiredService<IMediator>();
+                _Repository = _ServiceProvider.GetRequiredService<IClienteRepository>();
+                foreach (var clienteViewModel in TestHelper.LoadClienteViewModelsData())
+                {
+                    // Act
+                    var commandInsert = new InsertClienteCommand(clienteViewModel);
+                    var rst = await _Mediator.Send(commandInsert, CancellationToken.None);
+                    Guid clienteId = (Guid)rst.Result;
+
+                    // Retrieve the inserted entity from the in-memory database context for additional assertions if needed
+                    var insertedCliente = await _Repository.QuerySingleAsync(c => c.Id == clienteId, include: c => c.Include(t => t.Telefones));//dbContext.Clientes.FirstOrDefaultAsync(c => c.Id == clienteId);
+
+                    var updatingMapped = _Mapper.Map<ClienteViewModel>(insertedCliente);
+                    var telefoneUpdating = $"54678890";
+                    updatingMapped.Telefones.First().Numero = telefoneUpdating;
+                    var commandUpdate = new UpdateClienteCommand(updatingMapped);
+                    var updateRst = await _Mediator.Send(commandUpdate, CancellationToken.None);
+
+                    // Assert
+                    updateRst.Should().NotBeNull();
+                    updateRst.IsSuccess.Should().BeTrue();
+                    updateRst.MessageError.Count.Should().Be(0);
+                    var updatedCliente = await dbContext.Clientes.Include(c => c.Telefones).FirstOrDefaultAsync(c => c.Id == clienteId);
+                    updatedCliente.Should().NotBeNull();
+                    if (updatedCliente != null)
+                        updatedCliente.Telefones.First().Numero.Should().Be(telefoneUpdating);
                 };
             }
         }
